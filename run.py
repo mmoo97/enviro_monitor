@@ -21,29 +21,33 @@ socketio = SocketIO(app, message_queue= vars.message_queue)
 
 @socketio.on('connect')
 def socket_connect():
-    pass
+    print("User connected!")
 
 
-@socketio.on('join_room')
-def on_room(json):
+@socketio.on('get data')
+def fetch_data(json):
+    print("\t|----Host: {}\n\t|----Hostname: {}".format(json['host'], json['hostname']))
 
-    room = str(session['uid'])
-    referrer = json['referrer']
-    join_room(room)
-    print('\t\t\t|-----Room ID: ' + room)
-    print('\t\t\t|-----Referrer: ' + referrer)
+# @socketio.on('join_room')
+# def on_room(json):
+#
+#     room = str(session['uid'])
+#     referrer = json['referrer']
+#     join_room(room)
+#     print('\t\t\t|-----Room ID: ' + room)
+#     print('\t\t\t|-----Referrer: ' + referrer)
 
 
-@socketio.on('request account')
-def request_account(json, methods=['GET', 'POST']):
-    print (time.strftime("%m-%d-%Y_%H:%M:%S") + '\tQueue request received: ' + str(json))
-    room = str(session['uid'])
-    print("Room: {}".format(room))
-    try:
-        tasks.celery_create_account.delay(json['username'], json['fullname'], json['reason'], session=room)
-    except Exception as e:
-        print(time.strftime("%m-%d-%Y_%H:%M:%S") + "\tError in account creation: ", e)
-        socketio.emit("Account creation failed", room)
+# @socketio.on('request account')
+# def request_account(json, methods=['GET', 'POST']):
+#     print (time.strftime("%m-%d-%Y_%H:%M:%S") + '\tQueue request received: ' + str(json))
+#     room = str(session['uid'])
+#     print("Room: {}".format(room))
+#     try:
+#         tasks.celery_create_account.delay(json['username'], json['fullname'], json['reason'], session=room)
+#     except Exception as e:
+#         print(time.strftime("%m-%d-%Y_%H:%M:%S") + "\tError in account creation: ", e)
+#         socketio.emit("Account creation failed", room)
 
 
 if __name__ == '__main__':
