@@ -1,8 +1,7 @@
 # run.py
 
 import os
-import time
-import tasks
+
 import vars
 
 from flask import session
@@ -25,8 +24,9 @@ def socket_connect():
 
 
 @socketio.on('get data')
-def fetch_data(json):
-    print("\t|----Host: {}\n\t|----Hostname: {}".format(json['host'], json['hostname']))
+def fetch_data(data):
+
+    print("\t|----Host: {}\n\t|----Hostname: {}".format(data['host'], data['hostname']))
 
 # @socketio.on('join_room')
 # def on_room(json):
