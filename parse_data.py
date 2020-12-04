@@ -22,24 +22,22 @@ def parse_day(directory, date):
     """
 
     suffix = ".txt"
-    data_output = {"date": date, "time": list(), "temp": list(),
-                   "intensity": list(), "red": list(), "green": list(), "blue": list()}
+    data_output = {"date": date, "times": [], "temps": [],
+                   "intensity": [], "red": [], "green": [], "blue": []}
     with open((directory + date + suffix), "r") as f:
-        f.readline()
-        count = 0
         for line in f.readlines():
-            print(line)
-            last_line = f.readline().replace('\n', '')
-            last_line = last_line.split("\t")
-        # todo: pick up from this point
-            data_output["time"].append(last_line[1])
-            count = count + 1
-            if count == 20:
-                break
+            line = line.split("\t")
+            if line[0] != "Date":
+                data_output['times'].append(line[1])
+                data_output['temps'].append(line[2])
+                data_output['intensity'].append(line[3])
+                data_output['red'].append(line[4])
+                data_output['green'].append(line[5])
+                data_output['blue'].append(line[6])
         f.close()
-    pass
+    return data_output["temps"]
 
-parse_day(vars.data_dir, "2020-04-01")
+print(parse_day(vars.data_dir, "2020-05-10"))
 
 def parse_recent(directory):
     suffix = ".txt"
@@ -59,3 +57,11 @@ def parse_recent(directory):
         return data_output
 
 
+def write_to_db(db_location):
+    import sqlite3
+
+    conn = sqlite3.connect(db_location)
+
+    pass
+
+write_to_db(vars.db_dir)
