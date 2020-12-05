@@ -1,7 +1,7 @@
 import datetime
 import vars
 import os
-
+import sqlite3
 
 data_labels = ("date", "time", "temp", "intensity", "red", "green", "blue")
 
@@ -35,9 +35,8 @@ def parse_day(directory, date):
                 data_output['green'].append(line[5])
                 data_output['blue'].append(line[6])
         f.close()
-    return data_output["temps"]
+    return data_output
 
-print(parse_day(vars.data_dir, "2020-05-10"))
 
 def parse_recent(directory):
     suffix = ".txt"
@@ -57,11 +56,44 @@ def parse_recent(directory):
         return data_output
 
 
-def write_to_db(db_location):
-    import sqlite3
+def write_to_db(db_location, table, values, raw):
 
     conn = sqlite3.connect(db_location)
+    cur = conn.cursor()
 
-    pass
+    cur.execute("PRAGMA table_info('{}');".format(table))
 
-write_to_db(vars.db_dir)
+    columns = cur.fetchall()
+    holders = ""
+    col_names = ""
+    for name in columns:
+        holders = holders + "?"
+        col_names = col_names + name[1]
+
+        if name[1] != columns[-1][-5]:
+            holders = holders + ","
+            col_names = col_names + ", "
+
+    # print(col_names)
+    # print(holders)
+
+    command = "INSERT INTO '{}' ({}) VALUES({});".format(table, col_names, holders)
+    # command = command.format(values)
+    # print(values)
+    # 
+    # print(command)
+
+    if raw is None:
+        cur.execute(command, values)
+    else:
+        cur.execute(raw, values)
+
+    conn.commit()
+    cur.close()
+
+
+data = parse_day(vars.data_dir, "2020-05-10")
+for i in range(len(data['times'])):
+    write_to_db(vars.db_dir, str(data['date']), (data['times'][i], data['temps'][i],
+                                             data['intensity'][i], data['red'][i],
+                                             data['green'][i], data['blue'][i]), None)
