@@ -1,7 +1,7 @@
 # run.py
 
 import os
-
+from datetime import date
 import vars
 
 from flask import session
@@ -27,6 +27,23 @@ def socket_connect():
 def fetch_data(data):
 
     print("\t|----Host: {}\n\t|----Hostname: {}".format(data['host'], data['hostname']))
+
+
+@socketio.on('year')
+def show_yearly(data):
+    print('yearly')
+
+
+@socketio.on('month')
+def show_monthly(data):
+    print('monthly')
+
+
+@socketio.on('today')
+def show_today(data):
+    print('today')
+
+
 
 # @socketio.on('join_room')
 # def on_room(json):
