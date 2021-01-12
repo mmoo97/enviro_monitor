@@ -1,5 +1,5 @@
-import sqlite3
-key = "hello"
+key = ""
 message_queue = ""
 broker_url = ""
-data_dir = "/Users/MitchellMoore 1//Downloads/room_data/"
+data_dir = ""
+db_dir = ""
