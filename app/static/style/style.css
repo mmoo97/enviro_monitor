@@ -1,0 +1,10 @@
+ #charts {
+    flex:auto;
+    min-width: 25%;
+    overflow: auto;
+    height:320px;
+    background:transparent;
+    border-style: inherit;
+    border-right-style:inset;
+    border-color:transparent;
+  }
