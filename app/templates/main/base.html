@@ -5,7 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-<script src="{{ url_for('static', filename='scripts/function.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
 
 <script>
     console.info('Room ID: {{ room_id }}');
@@ -24,6 +24,51 @@
 
     });
 </script>
+
+    <style>
+    #charts{
+    flex:auto;
+    min-width: 25%;
+    overflow: auto;
+    height:320px;
+    background:transparent;
+    border-style: inherit;
+    border-right-style:inset;
+    border-color:transparent;
+  }
+    </style>
+
+    <div id="charts">
+        <canvas id="myChart" width=50% height=10%></canvas>
+    </div>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart1 = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ date_list | safe }},
+                datasets: [{
+                    label: 'Historic  Weather',
+                    data: {{ hist_temps }},
+                    backgroundColor: "rgba(255, 255, 102, .3)",
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Temperature (°F)'
+                      },
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
 
 <body>
 

@@ -3,12 +3,12 @@
 # local imports
 from __future__ import print_function
 import vars
+from datetime import date
 
 # third-party imports
 import uuid
 from flask import Flask, redirect, url_for, request, render_template, flash, session
 from flask_bootstrap import Bootstrap
-import random
 
 
 def create_app(config_name):
@@ -19,8 +19,11 @@ def create_app(config_name):
     def index():
 
         # Todo: Make prerec function to get host
+        room_id = uuid.uuid1()
+        date_list = [date.today().strftime("%Y-%m-%d")]
+        hist_temps = [1, 2, 3, 4]
 
-        return render_template('main/base.html')
+        return render_template('main/base.html', room_id=room_id, date_list=date_list, hist_temps=hist_temps)
 
     # misc page error catching
     @app.errorhandler(403)
