@@ -32,13 +32,14 @@
 <!-- As a heading -->
 <div>
     <nav class="navbar fixed-top navbar-dark" style="background-color: #2b542c;" id="navbar">
-      <span class="navbar-brand mb-0 h1">Navbar</span>
+      <span class="navbar-brand mb-0 h1">EnviroPi</span>
     </nav>
 </div>
 
 <div id="charts" style="margin-top: 60px">
     <div>
         <canvas id="myChart" width=50% height=10%></canvas>
+        <button type="button" class="btn btn-primary" onclick="myChart1.data.labels[0] = '4'; myChart1.update() ">test</button>
         <button type="button" class="btn btn-primary" onclick="socket.emit('year', {});">Year</button>
         <button type="button" class="btn btn-secondary" onclick="socket.emit('month', {});">Month</button>
         <button type="button" class="btn btn-success" onclick="socket.emit('today', {});">Today</button>
