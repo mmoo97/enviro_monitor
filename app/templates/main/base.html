@@ -15,20 +15,19 @@
     var socket = io.connect('http://' + document.domain + ':' + location.port);
 
     socket.on( 'connect', function() {
-        socket.emit( 'get data', {
+        socket.emit( 'host data', {
             host: location.host,
             hostname: location.hostname
         });
 
-        socket.on( 'receive data', function( msg ) {
-           alert("ot it!")
-
+        socket.on( 'receive data', data => {
+            console.log(data[0])
         });
 
     });
 </script>
 </head>
-<body>
+<body style="padding-top: 50px">
 <!-- As a heading -->
 <div>
     <nav class="navbar fixed-top navbar-dark" style="background-color: #2b542c;" id="navbar">
@@ -36,6 +35,25 @@
     </nav>
 </div>
 
+<div class="container-fluid scrollable" style="position: relative; padding-top: 10px">
+          <div class="row">
+            <div class="col-sm">
+              Date <br>
+            </div>
+            <div class="col-sm">
+              Time <br>
+            </div>
+            <div class="col-sm">
+              Temp <br>
+            </div>
+              <div class="col-sm">
+              Light Intensity <br>
+            </div>
+              <div class="col-sm">
+              Light Color <br>
+            </div>
+          </div>
+        </div>
 <div id="charts" style="margin-top: 60px">
     <div>
         <canvas id="myChart" width=50% height=10%></canvas>
